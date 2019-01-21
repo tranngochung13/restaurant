@@ -1,58 +1,50 @@
-<?php 
-error_reporting(1);
+<?php include("shopping_cart.php") ?>
+<?php
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'restaurant');
+ 
+/* Attempt to connect to MySQL database */
+$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+mysqli_set_charset($link,'utf8');
+// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
 session_start();
-include('numberToWord.php');
-$connect = mysqli_connect("localhost", "root", "", "restaurant");
-mysqli_set_charset($connect,'utf8');
-if(isset($_POST["add_to_cart"]))
-{
-    if(isset($_SESSION["shopping_cart"]))
-    {
-        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if(!in_array($_GET["codes"], $item_array_id))
-        {
-            $count = count($_SESSION["shopping_cart"]);
-            $item_array = array(
-                'item_id'           =>  $_GET["codes"],
-                'item_name'         =>  $_POST["hidden_name"],
-                'item_price'        =>  $_POST["hidden_price"],
-                'item_quantity'     =>  $_POST["quantity"]
-            );
-            $_SESSION["shopping_cart"][$count] = $item_array;
-        }
-        else
-        {
-            echo '<script>alert("Item Already Added")</script>';
-        }
-    }
-    else
-    {
-        $item_array = array(
-            'item_id'           =>  $_GET["codes"],
-            'item_name'         =>  $_POST["hidden_name"],
-            'item_price'        =>  $_POST["hidden_price"],
-            'item_quantity'     =>  $_POST["quantity"]
-        );
-        $_SESSION["shopping_cart"][0] = $item_array;
+if(isset($_POST["add_to_cart"])){
+if (isset($_SESSION["shopping_cart"])) {
+$sql = "INSERT INTO `orders` (user_id,order_date) values (?,CURDATE())";
+mysqli_set_charset($link, 'UTF8');
+
+if($stmt = $link->prepare($sql)){
+   // Bind variables to the prepared statement as parameters
+    $stmt->bind_param("s", $_SESSION['username']);
+    $time = "CURDATE()";
+    $stmt->execute();
+}
+$order_id=0;
+$sql1= "SELECT *from orders where user_id = ".$_SESSION['username']." and dates = CURDATE()" ;
+$result = $link->query($sql1);
+if($result){
+    while($row1 = $result->fetch_array(MYSQLI_ASSOC)){
+        $order_id = $row1['id'];
     }
 }
-
-if(isset($_GET["action"]))
+$giohang = $_SESSION['add_to_cart'];
+foreach($giohang as $id =>$ls)
 {
-    if($_GET["action"] == "delete")
-    {
-        foreach($_SESSION["shopping_cart"] as $keys => $values)
-        {
-            if($values["item_id"] == $_GET["codes"])
-            {
-                unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
-                echo '<script>window.location="cart.php"</script>';
-            }
-        }
+    $row=mysqli_fetch_row(mysqli_query($link,"SELECT * FROM products WHERE id in ('$id')"));
+    // echo $ls;
+    $sql2 = "INSERT INTO `orders_detail` values ($order_id,$product_id,$quantity)";
+    if ($link->query($sql2) === TRUE) {
+        echo("success");
     }
+    else { echo "".$link>error;}
+    unset($_SESSION['add_to_cart']);}
 }
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -261,6 +253,7 @@ if(isset($_GET["action"]))
                                                         </div>
                                                         <div class="icon_hover">
                                                             <input type="hidden" name="quantity" value="1" />
+                                                            <input type="hidden" name="hidden_id" value="<?php echo $row["product_id"]; ?>" />
                                                             <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
                                                             <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
                                                             <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />

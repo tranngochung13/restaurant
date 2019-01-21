@@ -1,59 +1,4 @@
-<?php 
-error_reporting(1);
-session_start();
-include('numberToWord.php');
-$connect = mysqli_connect("localhost", "root", "", "restaurant");
-mysqli_set_charset($connect,'utf8');
-if(isset($_POST["add_to_cart"]))
-{
-    if(isset($_SESSION["shopping_cart"]))
-    {
-        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if(!in_array($_GET["codes"], $item_array_id))
-        {
-            $count = count($_SESSION["shopping_cart"]);
-            $item_array = array(
-                'item_id'           =>  $_GET["codes"],
-                'item_name'         =>  $_POST["hidden_name"],
-                'item_price'        =>  $_POST["hidden_price"],
-                'item_quantity'     =>  $_POST["quantity"]
-            );
-            $_SESSION["shopping_cart"][$count] = $item_array;
-        }
-        else
-        {
-            echo '<script>alert("Item Already Added")</script>';
-        }
-    }
-    else
-    {
-        $item_array = array(
-            'item_id'           =>  $_GET["codes"],
-            'item_name'         =>  $_POST["hidden_name"],
-            'item_price'        =>  $_POST["hidden_price"],
-            'item_quantity'     =>  $_POST["quantity"]
-        );
-        $_SESSION["shopping_cart"][0] = $item_array;
-    }
-}
-
-if(isset($_GET["action"]))
-{
-    if($_GET["action"] == "delete")
-    {
-        foreach($_SESSION["shopping_cart"] as $keys => $values)
-        {
-            if($values["item_id"] == $_GET["codes"])
-            {
-                unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
-                echo '<script>window.location="cart.php"</script>';
-            }
-        }
-    }
-}
-
-?>
+<?php include("shopping_cart.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -178,7 +123,8 @@ if(isset($_GET["action"]))
                                 </ul>
                             </li>
                             <li><a href="contact.html">Contact US</a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                            <?php $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
+                            <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"><span> (<?php echo $cart_count; ?>)</span></i></a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -233,13 +179,6 @@ if(isset($_GET["action"]))
                             $link = mysqli_connect("localhost", "root", "", "restaurant");
                             mysqli_set_charset($link,'utf8');
                             $duongdan = './Admin/image-food/image/';
-                            if(!empty($_SESSION["shopping_cart"])) {
-                    $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
-                    <div class="cart_div" style="text-align: right;">
-                        <a href="cart.php"><img src="cart-icon.png" /> Cart<span> (<?php echo $cart_count; ?>)</span></a>
-                    </div>
-                <?php
-                }
                             for ($i=0; $i <= 99; $i++) { 
                                 $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and products.category_id = ".$i;
                                 // echo $sql;
@@ -279,6 +218,95 @@ if(isset($_GET["action"]))
             </div>
         </section>
         <!--================End Our feature Area =================-->
+
+        <!--================End Recent Blog Area =================-->
+        <footer class="footer_area">
+            <div class="footer_widget_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <aside class="f_widget about_widget">
+                                <div class="f_w_title">
+                                    <h4>ABOUT RedCayenne</h4>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris ut.</p>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </aside>
+                        </div>
+                        <div class="col-md-3">
+                            <aside class="f_widget contact_widget">
+                                <div class="f_w_title">
+                                    <h4>CONTACT US</h4>
+                                </div>
+                                <p>Have questions, comments or just want to say hello:</p>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-envelope"></i>backpiper.com@gmail.com</a></li>
+                                    <li><a href="#"><i class="fa fa-phone"></i>+88 01911 854 378</a></li>
+                                    <li><a href="#"><i class="fa fa-map-marker"></i>5001 E. Colorado Blvd. Suite 820,<br /> Pasadena, CA 91106</a></li>
+                                </ul>
+                            </aside>
+                        </div>
+                        <div class="col-md-3">
+                            <aside class="f_widget twitter_widget">
+                                <div class="f_w_title">
+                                    <h4>Twitter Feed</h4>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="#">@_sumonrahman:</a> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.
+                                    </li>
+                                    <li>
+                                        <a href="#">@_sumonrahman:</a> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.
+                                    </li>
+                                </ul>
+                            </aside>
+                        </div>
+                        <div class="col-md-3">
+                            <aside class="f_widget gallery_widget">
+                                <div class="f_w_title">
+                                    <h4>Gallery On Flickr</h4>
+                                </div>
+                                <ul>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-1.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-2.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-3.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-4.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-5.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                    <li><a href="#"><img src="img/gallery/f-w-gallery/f-w-gallery-6.jpg" alt=""><i class="fa fa-search"></i></a></li>
+                                </ul>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copy_right_area">
+                <div class="container">
+                    <div class="pull-left">
+                        <h5><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p></h5>
+                    </div>
+                    <div class="pull-right">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Home</a></li>
+                            <li class="active"><a href="#">About Us</a></li>
+                            <li><a href="#">Menu</a></li>
+                            <li><a href="#">Gallery</a></li>
+                            <li><a href="#">Reservation</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--================End Recent Blog Area =================-->
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="js/jquery-2.1.4.min.js"></script>

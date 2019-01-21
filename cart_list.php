@@ -46,7 +46,7 @@ if(isset($_GET["action"]))
 			{
 				unset($_SESSION["shopping_cart"][$keys]);
 				echo '<script>alert("Item Removed")</script>';
-				echo '<script>window.location="menu-grid.php"</script>';
+				echo '<script>window.location="menu-list.php"</script>';
 			}
 		}
 	}
@@ -104,7 +104,7 @@ if(isset($_GET["action"]))
 					}
 					?>	
 				</table>
-				<div style="text-align: right;"><a href="menu-grid.php">Come back</a></div>
+				<div style="text-align: right;"><a href="menu-list.php">Come back</a></div>
 			</div>
 		</div>
 	</div>

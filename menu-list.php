@@ -1,59 +1,4 @@
-<?php
-error_reporting(1);
-session_start();
-include('numberToWord.php');
-$connect = mysqli_connect("localhost", "root", "", "restaurant");
-mysqli_set_charset($connect,'utf8');
-if(isset($_POST["add_to_cart"]))
-{
-    if(isset($_SESSION["shopping_cart"]))
-    {
-        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
-        if(!in_array($_GET["codes"], $item_array_id))
-        {
-            $count = count($_SESSION["shopping_cart"]);
-            $item_array = array(
-                'item_id'           =>  $_GET["codes"],
-                'item_name'         =>  $_POST["hidden_name"],
-                'item_price'        =>  $_POST["hidden_price"],
-                'item_quantity'     =>  $_POST["quantity"]
-            );
-            $_SESSION["shopping_cart"][$count] = $item_array;
-        }
-        else
-        {
-            echo '<script>alert("Item Already Added")</script>';
-        }
-    }
-    else
-    {
-        $item_array = array(
-            'item_id'           =>  $_GET["codes"],
-            'item_name'         =>  $_POST["hidden_name"],
-            'item_price'        =>  $_POST["hidden_price"],
-            'item_quantity'     =>  $_POST["quantity"]
-        );
-        $_SESSION["shopping_cart"][0] = $item_array;
-    }
-}
-
-if(isset($_GET["action"]))
-{
-    if($_GET["action"] == "delete")
-    {
-        foreach($_SESSION["shopping_cart"] as $keys => $values)
-        {
-            if($values["item_id"] == $_GET["codes"])
-            {
-                unset($_SESSION["shopping_cart"][$keys]);
-                echo '<script>alert("Item Removed")</script>';
-                echo '<script>window.location="cart.php"</script>';
-            }
-        }
-    }
-}
-?>
-
+<?php include("shopping_cart.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -184,7 +129,8 @@ if(isset($_GET["action"]))
                                 </ul>
                             </li>
                             <li><a href="contact.html">Contact US</a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                            <?php $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
+                            <li><a href="cart_list.php"><i class="fa fa-shopping-cart" aria-hidden="true"><span> (<?php echo $cart_count; ?>)</span></i></a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -207,7 +153,7 @@ if(isset($_GET["action"]))
         <!--================End Our feature Area =================-->
         <section class="most_popular_item_area menu_list_page">
             <div class="container">
-                <div class="popular_filter">
+                <div class="popular_filter">                            
                     <ul>
                         <li class="active" data-filter="*"><a href="">All</a></li>
                         <?php 
@@ -236,10 +182,6 @@ if(isset($_GET["action"]))
                             error_reporting(1);
                             $link = mysqli_connect("localhost", "root", "", "restaurant");
                             mysqli_set_charset($link,'utf8');
-                            $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
-                    <div class="cart_div" style="text-align: right;">
-                        <a href="cart.php"><img src="cart-icon.png" /> Cart<span> (<?php echo $cart_count; ?>)</span></a>
-                    </div> <?php
                             $duongdan = './Admin/image-food/image/';
                             for ($i=0; $i <= 99; $i++) { 
                                 $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and products.category_id = ".$i;
@@ -360,9 +302,9 @@ if(isset($_GET["action"]))
                 <div class="container">
                     <div class="pull-left">
                         <h5><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p></h5>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p></h5>
                     </div>
                     <div class="pull-right">
                         <ul class="nav navbar-nav navbar-right">
