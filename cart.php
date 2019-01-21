@@ -104,7 +104,10 @@ if(isset($_GET["action"]))
 					}
 					?>	
 				</table>
-				<div style="text-align: right;"><a href="menu-grid.php">Come back</a></div>
+				<div style="text-align: right;">
+					<a href="menu-grid.php">Come back</a>
+					<a href="buy.php">Buy</a>
+				</div>
 			</div>
 		</div>
 	</div>
