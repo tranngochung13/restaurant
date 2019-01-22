@@ -1,4 +1,5 @@
 <?php
+error_reporting(1);
 session_start();
 $connect = mysqli_connect("localhost", "root", "", "restaurant");
 ?>
@@ -106,7 +107,7 @@ if ($conn -> connect_error) {
 } 
 
 $sql = "INSERT INTO tut (p_name, price)
-VALUES ('{$mysqli->real_escape_string($_POST['ime'])}')";
+VALUES ('{$conn->real_escape_string($_POST['ime'])}')";
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";

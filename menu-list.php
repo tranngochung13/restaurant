@@ -30,9 +30,7 @@
                     <ul>
                         <li class="active" data-filter="*"><a href="">All</a></li>
                         <?php 
-                            error_reporting(1);
-                            $link = mysqli_connect("localhost", "root", "", "restaurant");
-                            mysqli_set_charset($link,'utf8');
+                            include('connect.php');
                             for ($i=1; $i < 99; $i++) { 
                                 $sql = "SELECT * FROM categories WHERE parentID = 1 and id = ".$i;
                             // echo $sql;
@@ -52,9 +50,6 @@
                 <div class="p_recype_item_main">
                     <div class="row p_recype_item_active">
                         <?php
-                            error_reporting(1);
-                            $link = mysqli_connect("localhost", "root", "", "restaurant");
-                            mysqli_set_charset($link,'utf8');
                             $duongdan = './Admin/image-food/image/';
                             for ($i=0; $i <= 99; $i++) { 
                                 $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and products.category_id = ".$i;

@@ -121,8 +121,11 @@
                                             <div class="feature_item_inner">
                                                 <img style="width: 100%; height: 250px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                                 <div class="icon_hover">
-                                                    <i class="fa fa-search"></i>
-                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <input type="hidden" name="quantity" value="1" />
+                                                    <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
+                                                    <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
+                                                    <button type="submit" name="add_to_cart" style=" width: 1px; height: 1px; background: aqua;" class=""><i class="fa fa-shopping-cart" style="margin-top:-22px; margin-left: -24px;"></i></button>
+                                                    <a style="margin-left: 10px" href="detail.php?action=add&id=<?php echo $row["id"]; ?>"><i class="fa fa-search"></i></a>
                                                 </div>
                                             </div>
                                             <div class="title_text">

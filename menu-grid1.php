@@ -171,16 +171,16 @@ foreach($giohang as $id =>$ls)
                             $link = mysqli_connect("localhost", "root", "", "restaurant");
                             mysqli_set_charset($link,'utf8');
                             for ($i=1; $i < 99; $i++) { 
-                                $sql = "SELECT * FROM categories WHERE parentID = 1 and id = ".$i;
-                            // echo $sql;
-                            $result = $link->query($sql);
-                            if ($result->num_rows > 0) {
-                                // output data of each row
-                                while($row = $result->fetch_assoc()) { ?>
-                                    <li data-filter=".<?php echo convert_number_to_words($i); ?>"><a href=""><?php echo $row["cate_name"] ?></a></li>
-                                <?php
+                                $sql = "SELECT * FROM categories WHERE id IN (8,12,16,19) and id = ".$i;
+                                // echo $sql;
+                                $result = $link->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while($row = $result->fetch_assoc()) { ?>
+                                        <li data-filter=".<?php echo convert_number_to_words($i); ?>"><a href=""><?php echo $row["cate_name"] ?></a></li>
+                                    <?php
+                                    }
                                 }
-                            }
                             }
                                 
                         ?>
@@ -195,24 +195,15 @@ foreach($giohang as $id =>$ls)
                             $link = mysqli_connect("localhost", "root", "", "restaurant");
                             mysqli_set_charset($link,'utf8');
                             $duongdan = './Admin/image-food/image/';
-                            if(!empty($_SESSION["shopping_cart"])) {
-                    $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
-                    <div class="cart_div" style="text-align: right;">
-                        <a href="cart.php"><img src="cart-icon.png" /> Cart<span> (<?php echo $cart_count; ?>)</span></a>
-                    </div>
-                <?php
-                }
                             for ($i=0; $i <= 99; $i++) { 
-                                $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and products.category_id = ".$i;
+                                $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and categories.parentID NOT IN(1) and categories.parentID = ".$i;
                                 // echo $sql;
                                 $result = $link->query($sql);
                                 if ($result->num_rows > 0) {
                                     // output data of each row
                                     while($row = $result->fetch_assoc()) {?>
                                         <div class="col-md-4 <?php echo convert_number_to_words($i) ?>" style="margin-top: 30px">
-
-
-                                            <form method="post" action="menu-grid1.php?action=add&codes=<?php echo $row["codes"]; ?>">
+                                            <form method="post" action="menu-grid.php?action=add&codes=<?php echo $row["codes"]; ?>">
                                                 <div class="feature_item">
                                                     <div class="feature_item_inner">
                                                         <img style="height: 250px; width: 100%;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
@@ -223,10 +214,12 @@ foreach($giohang as $id =>$ls)
                                                         </div>
                                                         <div class="icon_hover">
                                                             <input type="hidden" name="quantity" value="1" />
-                                                            <input type="hidden" name="hidden_id" value="<?php echo $row["product_id"]; ?>" />
                                                             <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
                                                             <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
-                                                            <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
+                                                            <i>
+                                                                <input type="submit" name="add_to_cart" style="margin-left:-25px;" class="btn btn-success" value="Add to Cart" />
+                                                            </i>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
