@@ -25,7 +25,7 @@
                         $link = mysqli_connect("localhost", "root", "", "restaurant");
                         mysqli_set_charset($link,'utf8');
                         $duongdan = './Admin/image-food/image/';
-                        $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id";
+                        $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id";
                         // echo $sql;
                         $result = $link->query($sql);
                         if ($result->num_rows > 0) {
@@ -36,12 +36,12 @@
                                         <div class="feature_item_inner">
                                             <img style="width: 100%; height: 250px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                             <div class="icon_hover">
-                                                <i class="fa fa-search"></i>
+                                                <a href="detail.php?action=add&id=<?php echo $row["id"]; ?>"><i class="fa fa-search"></i></a>
                                                 <i class="fa fa-shopping-cart"></i>
                                             </div>
                                         </div>
                                         <div class="title_text">
-                                            <div class="feature_left"><a href="table.html"><span><?php echo $row["food_name"] ?></span></a></div>
+                                            <div class="feature_left"><a href="table.html"><span><?php echo $row["product_name"] ?></span></a></div>
                                             <div class="restaurant_feature_dots"></div>
                                             <div class="feature_right"><?php echo $row["prices"] ?></div>
                                         </div>

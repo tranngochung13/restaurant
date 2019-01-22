@@ -67,19 +67,20 @@
         <div class="container">
             <div class="pull-left">
                 <h5><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <script>document.write(new Date().getFullYear());</script> - This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="index.php" target="_blank">Ngọc Hùng - Văn Cưng</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p></h5>
             </div>
-            <div class="pull-right">
+            <div class="pull-right" style="margin-right: -50px">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Home</a></li>
-                    <li class="active"><a href="#">About Us</a></li>
-                    <li><a href="#">Menu</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Reservation</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="menu-grid.php">Menu Grid</a></li>
+                    <li><a href="menu-list.php">Menu List</a></li>
+                    <li><a href="pizzas.php">Pizzas</a></li>
+                    <li><a href="coffee.php">Coffee</a></li>
+                    <li><a href="burgers.php">Burgers</a></li>
+                    <li><a href="drinks.php">Drinks</a></li>
+                    <li><a href="contact.php">Contact US</a></li>
                 </ul>
             </div>
         </div>

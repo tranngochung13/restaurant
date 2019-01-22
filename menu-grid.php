@@ -72,9 +72,8 @@
                                                             <input type="hidden" name="quantity" value="1" />
                                                             <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
                                                             <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
-                                                            <i>
-                                                                <input type="submit" name="add_to_cart" style="margin-top:5px;" class="" value="Add to Cart" />
-                                                            </i>
+                                                            <button type="submit" name="add_to_cart" style=" width: 1px; height: 1px; background: aqua;" class=""><i class="fa fa-shopping-cart" style="margin-top:-22px; margin-left: -24px;"></i></button>
+                                                            <a href="detail.php?action=add&id=<?php echo $row["id"]; ?>"><i class="fa fa-search"></i></a>
                                                             
                                                         </div>
                                                     </div>

@@ -15,7 +15,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }else{
         $cate_name = $input_cate_name;
     }
-    
     // Validate name
     $input_cate_code = trim($_POST["code"]);
     if(empty($input_cate_code)){
@@ -26,7 +25,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     else{
         $code = $input_cate_code;
     }
-    
     // Check input errors before inserting in database
     if(empty($cate_cate_err) && empty($code_err)){
         // Prepare an insert statement
@@ -49,11 +47,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Something went wrong. Please try again later.";
             }
         }
-         
         // Close statement
         mysqli_stmt_close($stmt);
     }
-    
     // Close connection
     mysqli_close($link);
 }
@@ -98,8 +94,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </form>
                 </div>
             </div>  
-
-                  
         </div>
     </div>
 </body>
