@@ -71,7 +71,7 @@
                                                             <img style="height: 180px; width: 180px;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                                         </div>
                                                         <div class="media-body">
-                                                            <a href="#"><h3 name="hidden_name"><?php echo $row["product_name"] ?></h3></a>
+                                                            <a href="detail.php?id=<?php echo $row["id"] ?>"><h3 name="hidden_name"><?php echo $row["product_name"] ?></h3></a>
                                                             <h4 name="hidden_price"><?php echo $row["prices"] ?></h4>
                                                             <p><?php echo $row["description"] ?></p>
                                                             <p><?php echo $row["cate_name"] ?></p>
